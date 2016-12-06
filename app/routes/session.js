@@ -51,6 +51,33 @@ function SessionHandler(db) {
         });
     };
 
+    this.handleLoginMongo = function(req, res, next) {
+        var userName = req.body.userName;
+        var password = req.body.password;
+
+        console.log(req.body);
+
+        userDAO.validateLoginMongo(userName, password, function(err, user) {
+            if(!user) {
+                return res.render("login", {
+                    username: userName,
+                    password: "",
+                    loginError: "Invalid username/password"
+                });
+            } else {
+                req.session.regenerate(function() {
+                    req.session.userId = user._id;
+
+                    if (user.isAdmin) {
+                        return res.redirect("/benefits");
+                    } else {
+                        return res.redirect("/dashboard");
+                    }
+                });
+            }
+	});
+    };
+
     this.handleLoginRequest = function(req, res, next) {
         var userName = req.body.userName;
         var password = req.body.password;

@@ -27,6 +27,10 @@ var exports = function(app, db) {
     // Login form
     app.get("/login", sessionHandler.displayLoginPage);
     app.post("/login", sessionHandler.handleLoginRequest);
+	
+    // Login form
+    //app.get("/login-mongo", sessionHandler.displayLoginPage);
+    app.post("/login-mongo", sessionHandler.handleLoginMongo);
 
     // Signup form
     app.get("/signup", sessionHandler.displaySignupPage);
